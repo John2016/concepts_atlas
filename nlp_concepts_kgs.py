@@ -55,7 +55,7 @@ class get_website_papers:
             # 'comments' part will say whether be accepted by some conf or journal
 
             
-
+        # return structed information of {title,scholar,abstract,publication,datetime}
         return()
 
 
@@ -124,7 +124,8 @@ tricks  = ['sparse':'',
            'distributinal':'',
            'semi-supervised':'',
            'bidirectional':'',
-           'memory':'memory networks']
+           'memory':'memory networks',
+           'multi-hop':'']
 
 tasks   = ['QA':'Question and Answer',
            'relation':'relation extraction and relation reasoning',
@@ -165,6 +166,39 @@ academic_stopwords = ['with',
 
 ## construct relationship between papers and tasks, challenges, modules and tricks
 ## by hard rules or simple ML methods
+class graph_cooncept:
+    def __init__(structed_info):
+
+    ## 'e' means constructing new entity class 
+    def e_titles(self):
+
+        for paper in self.titles:
+        acapaper(self.)
+        return
+
+    ## 'r' means constructing new relation class
+    def r_title_scholar(self):
+
+        return
+
+    def r_title_tasks(self):
+
+        return
+
+    def r_title_modules(self):
+
+        return
+
+    def r_title_challenge(self):
+
+        return
+
+    def r_title_tricks(self):
+
+        return
+
+    
+
 
 
 
