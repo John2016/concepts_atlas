@@ -108,9 +108,10 @@ modules = ['CNN':'Convolutional Neural Networks',
            'ResNet':'Residual',
            'LSTM':'Long Short-Term Memory Networks',
            'RNN':'Recurrent Neural Networks',
-           'Transformer':'Attention is all you need'
-           'Graphical Decomposition':''
-           'GNN':'Graph Convolutional Networks']
+           'Transformer':'Attention is all you need',
+           'Graphical Decomposition':'',
+           'GNN':'Graph Convolutional Networks',
+           'GAN':'Generative Adversarial Networks']
 
 tricks  = ['sparse':'',
            'dropout':'',
@@ -125,7 +126,9 @@ tricks  = ['sparse':'',
            'semi-supervised':'',
            'bidirectional':'',
            'memory':'memory networks',
-           'multi-hop':'']
+           'multi-hop':''，
+           'bi':'bi-direction something',
+           'semi-':'semi-supervised']
 
 tasks   = ['QA':'Question and Answer',
            'relation':'relation extraction and relation reasoning',
