@@ -16,17 +16,22 @@ paper_list
 
     
 
-from urllib.request import urlretrieve
+""" from urllib.request import urlretrieve
 from urllib.request import urlopen
-from bs4 import BeautifulSoup 
+import urllib
+from bs4 import BeautifulSoup  """
 import numpy as np
 import pandas as pd
-import urllib
 import re
 import os
+import json
  
 
+def get_info_json(onoff_line = False):
+    ## run the scrapy or not
 
+    ## get information from json file
+    
 
 class get_website_papers:
     def __init__(URL_ROOT, num_limit, get_author = False, get_institute = False):
