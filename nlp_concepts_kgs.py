@@ -114,39 +114,113 @@ class graph_concept:
         acapaper(self.)
         return 
 
-    ## insert all title entities
-    def insert_entity_title(self):
-        
+    ## create 'Paper' node in neo4j graph database
+    @classmethod
+    def insert_entity_title(cls, tx, paper):
+        try:
+            assert(isinstance(title, aca_paper))
+        except AssertionError as ee:
+            print('Title is not aca_paper class')
+            return
+        tx.run("CREATE (:Paper {title: $title, pub_time: $pub_time, abstract:$abstract, available_link: $available_link})",\
+            title=paper.title, pub_time = paper.pub_time, abstract = paper.abstract, available_link = paper.available_link)
 
-    ## 'r' means constructing new relation class
-    def r_title_scholar(self):
+    ## create 'Task' node in neo4j graph database
+    @classmethod
+    def insert_entity_tasks(cls, tx, tasks):
+        try:
+            assert(isinstance(tasks, task_category))
+        except AssertionError as ee:
+            print('Task is not task_category class')
+            return
+        tx.run("CREATE (:Task {name: $name, description: $description, sota_paper: $sota_paper})",\
+            name = tasks.name, description = tasks.description, sota_paper = task.sota_paper)
+    
+    ## create 'Challenge' node in neo4j graph database
+    @classmethod
+    def insert_entity_challenges(cls, tx, challenge):
+        try:
+            assert(isinstance(challenge, special_challenges))
+        except AssertionError as ee:
+            print("Challenge is not special_challenges class")
+            return
+        tx.run("CREATE (:Challenge {name: $name, description: $description})",\
+            name = challenge.name, description = challenge.description)
 
+    ## create 'Tricks' node in neo4j graph database
+    @classmethod
+    def insert_entity_tricks(cls, tx, tricks):
+        try:
+            assert(isinstance(tricks, special_tricks))
+        except AssertionError as ee:
+            print('Tricks is not special_tricks class')
+            return
+        tx.run("CREATE (:Tricks {name: $name, description: $description})",\
+            name = tricks.name, description = tricks.description)
+
+    ## insert relationship between title and scholars
+    ## create relationship 'Contribute' with no attribution
+    ## Scholar node would be created before this 
+    @staticmethod
+    def insert_relationship_ts(paper):
+        try:
+            assert(isinstance(paper, aca_paper))
+        except AssertionError as ee:
+            print('Error')
+            return
+        if len(paper.author) > 0:
+            for author in paper.author:
+                tx.run("MATCH (ti:Title), (au:Scholar) \
+                    WHERE ti.title = $title AND au.name = $author \
+                    CREATE (ti)-[r:Contribute]->(au) RETURN r", \
+                        title = paper.title, author = author)
         return
 
     # insert relationship between title and tasks
     @staticmethod
-    def insert_relation_tt(title, task):
+    def insert_relation_tta(title, task):
         
 
         return
 
     # insert relationship between title and modules
     @staticmethod
-    def insert_relation_tm():
+    def insert_relation_tm(tx, task_1):
+
 
         return
 
-    def r_title_challenge(self):
+    # isnert relationship between titles and challenges
+    def insert_relation_tc(self):
 
         return
 
-    def r_title_tricks(self):
+    # insert relationship between titles and tricks
+    def insert_relation_ttr(self):
 
         return
 
+    # insert relationship between tasks and tasks, including father, son and brothers
+    @staticmethod
+    def insert_relation_tata(task):
+        try:
+            assert(isinstance(task, task_category))
+        except AssertionError as ee:
+            print("Error!")
+            return
+        if not task.father_task is None:
+            tx.run("MATCH (ta1:Task)")
+            pass
+            
+
+
+    @staticmethod
     def init_neo(self, url, user, password):
         self._driver = GraphDatabase.driver(url, auth=(user, password))
 
+    # insert relationship between tasks and it's sota_papers
+    @staticmethod
+    def 
     def close_neo(self):
         self._driver.close()
 
