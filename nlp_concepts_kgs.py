@@ -75,27 +75,51 @@ class aca_paper:
         self.abstract = abstract
         self.available_link = available_link
 
+## information of scholars, initialized by just name
+## h_factor and high cited papers would be collected from GOOGLE 
 class scholar:
-    def __init__(name, h_factor, hcited_paper):
+    def __init__(name, h_factor=0, hcited_paper=''):
         self.name = name
         self.h_factor = h_factor
         self.hcited_paper = hcited_paper
 
+    def get_h_google(self):
+        h_factor_url = 'scholar.google.com\'
+        ## scrapy
+        self.h_factor = 0
+        self.hcited_paper = ['']
+
+
+## modules would be initialized by name list or dict
+## is_NN and original_paper will be done later
 class classical_modules:
-    def __init__(name, is_NN=True, original_paper,description):
+    def __init__(name, is_NN=True, original_paper='', description):
         self.name = name
         self.is_NN = is_NN
         self.original_paper = original_paper
         self.description = description
 
+    def get_is_NN(self):
+        ## maybe achieved by hand
+
+    def get_ori_paper(self):
+        url = ''
+        ## be completed in future
+
+## same with classical_modules
 class special_tricks:
     def __init__(name, original_paper, description):
         self.name = name
         self.original_paper = original_paper
         self.description = description
 
+    def get_ori_papers(self):
+        # be done later
+        self.original_paper = ['']
+
+## same with above
 class task_category:
-    def __init__(name, description, sota_paper, father_task, son_task, brother_task):
+    def __init__(name, description, sota_paper, father_task = None, son_task = None, brother_task = None):
         self.name = name
         self.description = description
         self.sota_paper = sota_paper
@@ -103,6 +127,15 @@ class task_category:
         self.son_task = son_task
         self.brother_task = brother_task
 
+    def get_sota(self):
+        self.sota_paper = ''
+
+    def get_neighbor_task(self):
+        self.father_task = None
+        self.son_task = None
+        self.brother_task = [None, None]
+
+## easy initialization        
 class special_challenges:
     def __init__(name, description):
         self.name = name
@@ -176,9 +209,10 @@ academic_stopwords = ['with',
 
 ## construct relationship between papers and tasks, challenges, modules and tricks
 ## by hard rules or simple ML methods
-class graph_cooncept:
+class graph_concept:
     def __init__(structed_info):
 
+    
     ## 'e' means constructing new entity class 
     def e_titles(self):
 
@@ -207,7 +241,18 @@ class graph_cooncept:
 
         return
 
-    
+    def init_neo(self, url, user, password):
+        self._driver = GraphDatabase.driver(url, auth=(user, password))
+
+    def close_neo(self):
+        self._driver.close()
+
+    def resolve_neo(self):
+        return
+
+    @staticmethod
+    def insert(sth):
+        return
 
 
 
@@ -218,15 +263,4 @@ import neo4jmk
 
 class data_to_graph:
 
-    def __init__(self, url, user, password):
-        self._driver = GraphDatabase.driver(url, auth=(user, password))
-
-    def close(self):
-        self._driver.close()
-
-    def resolve(self):
-        return
-
-    @staticmethod
-    def __insert(sth):
-        return
+    
