@@ -146,6 +146,19 @@ class graph_concept:
             return
         tx.run("CREATE (:Challenge {name: $name, description: $description})",\
             name = challenge.name, description = challenge.description)
+        return
+
+    ## create 'Modules' node in neo4j graph database
+    @classmethod
+    def insert_entity_modules(cls, tx, module):
+        try:
+            assert(isinstance(module, classical_modules))
+        except AssertionError as ee:
+            print('Module is not classical_modules class')
+            return
+        tx.run("CREATE (:Module {name: $name, description: $description})",\
+            name = module.name, description = module.description)
+        return
 
     ## create 'Tricks' node in neo4j graph database
     @classmethod
@@ -162,7 +175,7 @@ class graph_concept:
     ## create relationship 'Contribute' with no attribution
     ## Scholar node would be created before this 
     @staticmethod
-    def insert_relationship_ts(paper):
+    def insert_relationship_ts(tx, paper):
         try:
             assert(isinstance(paper, aca_paper))
         except AssertionError as ee:
@@ -170,34 +183,67 @@ class graph_concept:
             return
         if len(paper.author) > 0:
             for author in paper.author:
-                tx.run("MATCH (ti:Title), (au:Scholar) \
-                    WHERE ti.title = $title AND au.name = $author \
-                    CREATE (ti)-[r:Contribute]->(au) RETURN r", \
+                tx.run("MATCH (pa:Paper), (au:Scholar) \
+                    WHERE pa.title = $title AND au.name = $author \
+                    CREATE (pa)-[r:Contribute]->(au) RETURN r", \
                         title = paper.title, author = author)
         return
 
     # insert relationship between title and tasks
     @staticmethod
-    def insert_relation_tta(title, task):
-        
-
+    def insert_relation_tta(tx, paper, task):
+        try:
+            assert(isinstance(paper, aca_paper))
+            assert(isinstance(task, task_category))
+        except AssertionError as ee:
+            print('Class error')
+            return
+        tx.run("MATCH (pa:Paper), (ta:Task) \
+            WHERE pa.title = $title AND ta.name = $task \
+                CREATE (pa)-[r:TaskIs]->(ta) RETURN r", \
+                    title = paper.title, task = task.name)
         return
 
     # insert relationship between title and modules
     @staticmethod
-    def insert_relation_tm(tx, task_1):
-
-
+    def insert_relation_tm(tx, paper, module):
+        try:
+            assert(isinstance(paper, aca_paper))
+            assert(isinstance(module, classical_modules))
+        except AssertionError as ee:
+            print('Class error')
+            return
+        tx.run("MATCH (pa:Paper), (mo:Module) \
+            WHERE pa.title = $title AND mo.name = $module \
+                CREATE (pa)-[r:ModuleIs]->(mo) RETURN r", \
+                title = paper.title, module = module.name)
         return
 
     # isnert relationship between titles and challenges
-    def insert_relation_tc(self):
-
+    @staticmethod
+    def insert_relation_tc(tx, paper, challenge):
+        try:
+            assert(isinstance(paper, aca_paper))
+            assert(isinstance(challenge, special_challenges))
+        except AssertionError as ee:
+            print('class error!')
+        tx.run("MATCH (pa:Paper), (ch:Challenge) \
+            WHERE pa.title = $title AND ch.name = $challenge \
+                CREATE (pa)-[r:ChallengeIs]->(ch) RETURN r", \
+                    title = paper.title, challenge = challenge.name)
         return
 
     # insert relationship between titles and tricks
-    def insert_relation_ttr(self):
-
+    def insert_relation_ttr(tx, paper, trick):
+        try:
+            assert(isinstance(paper, aca_paper))
+            assert(isinstance(trick, special_tricks))
+        except AssertionError as ee:
+            print('class error!')
+        tx.run("MATCH (pa:Paper), (tr:Trick) \
+            WHERE pa.title = $title AND tr.name = $trick) \
+                CREATE (pa)-[r:TrickIs]->(tr) RETURN r", \
+                    title = paper.title, trick = trick.name)
         return
 
     # insert relationship between tasks and tasks, including father, son and brothers

@@ -1,4 +1,4 @@
-# *- *
+# *-utf-8 - *
 
 ## modules would be initialized by name list or dict
 ## is_NN and original_paper will be done later
@@ -98,7 +98,8 @@ tasks   = ['QA':'Question and Answer',
            'matching':'',
            'onversation generation':'',
            'summarization':'text summarization',
-           'text classification':'']
+           'text classification':''
+           'language representation':'pre-trained model']
 
 challenges = ['scale':'',
               'efficiency':'',
@@ -109,7 +110,8 @@ challenges = ['scale':'',
               'large-scale':'',
               'task oriented':'',
               'mutti':'',
-              'knowledge base':"KGs should be used in this task"]
+              'knowledge base':'KGs should be used in this task'
+              'enhanced':'normal challenges']
 
 academic_stopwords = ['with',
                       'by',
