@@ -234,6 +234,7 @@ class graph_concept:
         return
 
     # insert relationship between titles and tricks
+    @staticmethod
     def insert_relation_ttr(tx, paper, trick):
         try:
             assert(isinstance(paper, aca_paper))
@@ -241,22 +242,35 @@ class graph_concept:
         except AssertionError as ee:
             print('class error!')
         tx.run("MATCH (pa:Paper), (tr:Trick) \
-            WHERE pa.title = $title AND tr.name = $trick) \
+            WHERE pa.title = $title AND tr.name = $trick \
                 CREATE (pa)-[r:TrickIs]->(tr) RETURN r", \
                     title = paper.title, trick = trick.name)
         return
 
     # insert relationship between tasks and tasks, including father, son and brothers
+    # relationship of father and son means 'include' and 'belong to'
     @staticmethod
-    def insert_relation_tata(task):
+    def insert_relation_tata(tx, task):
         try:
             assert(isinstance(task, task_category))
+            # assert(isinstance(task_2, task_category))
         except AssertionError as ee:
-            print("Error!")
+            print("Class of Task Error!")
             return
         if not task.father_task is None:
-            tx.run("MATCH (ta1:Task)")
-            pass
+            tx.run("MATCH (ta1:Task),(ta2,Task) \
+                WHERE ta1.name = $task_1 AND ta2.name = $task_2 \
+                    CREATE (ta1)-[r:IsFather]->(ta2) RETURN r", \
+                        task_1 = task.father_task, task_2 = task.name)
+        # we assume that one task may have multi son task
+        if not task.son_task is None:
+            for son_name in task.son_task:
+                tx.run("MATCH (ta1:Task),(ta2:Task) \
+                    WHERE ta1.name = $task_1 AND ta2.name = $task_2 \
+                        CREATE (ta1)-[r:IsSon]->(ta2) RETURN r", \
+                            task_1 = task.son_name, task_2 = task.name)
+        if not task.brother_task is None:
+            for brother_name in task.brother_task
             
 
 
