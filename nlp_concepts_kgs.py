@@ -175,7 +175,7 @@ class graph_concept:
     ## create relationship 'Contribute' with no attribution
     ## Scholar node would be created before this 
     @staticmethod
-    def insert_relationship_ts(tx, paper):
+    def insert_relation_ts(tx, paper):
         try:
             assert(isinstance(paper, aca_paper))
         except AssertionError as ee:
@@ -205,6 +205,7 @@ class graph_concept:
         return
 
     # insert relationship between title and modules
+    ## check whether 'module' should be class or str
     @staticmethod
     def insert_relation_tm(tx, paper, module):
         try:
@@ -271,33 +272,82 @@ class graph_concept:
                             task_1 = task.son_name, task_2 = task.name)
         if not task.brother_task is None:
             for brother_name in task.brother_task
+        return
             
-
+    # insert relationship between tasks and it's sota_paper
+    @staticmethod
+    def insert_relation_tsotat(tx, task):
+        try:
+            asssert(isinstance(task, task_category))
+        except AssertionError as ee:
+            print('Class error')
+            return
+        if not task.sota_paper is None:
+            # check if the sota_paper exists in GraphDatabase
+            result = tx.run("MATCH (ti:Paper {title: $name})", name = task.sota_paper)
+            if len(result) = 0:
+                tx.run("CREATE (:Paper {title: $title}), title = task.sota_paper)")
+            tx.run("MATCH (ta:Task), (pa:Paper) \
+                WHERE ta.name = $ta_name AND pa.title = $pa_title \
+                    CREATE (ta)-[r:sota_paper]->(pa) RETURN r", \
+                        ta_name = task.name, sota_name = task.sota_paper)
+        return
 
     @staticmethod
     def init_neo(self, url, user, password):
         self._driver = GraphDatabase.driver(url, auth=(user, password))
 
-    # insert relationship between tasks and it's sota_papers
-    @staticmethod
-    def 
+   
     def close_neo(self):
         self._driver.close()
 
     def resolve_neo(self):
         return
 
-    @staticmethod
-    def insert(sth):
-        return
+    def main(self):
+        # load data from json file and extract key information
+        paper_list = []
+        
+        task_list = []
+        challenge_list = []
+        trick_list = []
+        module_list = []
 
 
 
+        # insert entities
+        
+        with self._driver.session() as session_ta:
+            for task in task_list:
+                session_ta.write_transaction(self.insert_entity_tasks, task)
 
+        with self._driver.session() as session_ch:
+            for challenge in challenge_list:
+                session_ch.write_transaction(self.insert_entity_challenges, challenge)
 
-## construct neo4j graph based on structured information of academic papers
-import neo4jmk
+        with self._driver.session() as session_tr:
+            for trick in trick_list:
+                session_tr.write_transaction(self.insert_entity_tricks, trick)
 
-class data_to_graph:
+        with self._driver.session() as session_mo:
+            for module in module_list:
+                session_mo.write_transaction(self.insert_entity_modules, module)
+
+        # write title node and relation related to it
+        with self._driver.session() as session_p:
+            for paper in paper_list:
+                session_p.write_transaction(self.insert_entity_title, paper)
+                session_p.write_transaction(self.insert_relation_tta, paper, paper.task)
+                session_p.write_transaction(self.insert_relation_tc, paper, paper.challenge)
+                session_p.write_transaction(self.insert_relation_tm, paper, paper.module)
+                session_P.write_transaction(self.insert_relation_ttr, paper, paper.trick)
+
+        # write other relations into graph database, including relations between tasks and sota-relation
+        with self._driver.session() as session_o:
+            for task in task_list:
+                session_o.write_transaction(self.insert_relation_tata, task)
+                session_o.write_transaction(self.insert_relation_tsotat, task)
+
+    
 
     

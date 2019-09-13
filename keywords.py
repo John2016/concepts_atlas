@@ -29,7 +29,7 @@ class special_tricks:
 
 ## same with above
 class task_category:
-    def __init__(name, description, sota_paper, father_task = None, son_task = None, brother_task = None):
+    def __init__(name, description, sota_paper = None, father_task = None, son_task = None, brother_task = None):
         self.name = name
         self.description = description
         self.sota_paper = sota_paper
@@ -61,7 +61,8 @@ modules = ['CNN':'Convolutional Neural Networks',
            'Graphical Decomposition':'Matrix',
            'GNN':'Graph Convolutional Networks',
            'GAN':'Generative Adversarial Networks',
-           'CRF':'conditional random fields']
+           'CRF':'conditional random fields'
+           'MemNN':'Memory Neural Networks']
 
 tricks  = ['sparse':'',
            'dropout':'',
