@@ -297,7 +297,7 @@ class graph_concept:
     def init_neo(self, url, user, password):
         self._driver = GraphDatabase.driver(url, auth=(user, password))
 
-   
+    
     def close_neo(self):
         self._driver.close()
 
