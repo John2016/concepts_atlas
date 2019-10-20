@@ -8,8 +8,16 @@ URL_ARXIVCL_DAILY = 'https://arxiv.org/list/cs.CL/new'
 URL_CLJ   = 'https://www.mitpressjournals.org/toc/coli'
 URL_ACL   = 'http://www.acl2019.org/EN/program.xhtml'
 URL_NAACL = 'https://naacl2019.org/program/accepted/'
+
 URL_CVPR  = ''
-URL_AAAI  = ''
+URL_AAAI  = ['https://aaai.org/Library/AAAI/aaai19contents.php', 'https://aaai.org/Library/AAAI/aaai18contents.php']
+URL_AAAI_PAPER = 'https://aaai.org/ojs/index.php/AAAI/article/view/3876'
+'''
+<div class="row">
+<p>Sparse reward games, such as the infamous <em>Montezuma’s Reve...</p>
+</div>
+是文中第一处<p>标签
+'''
 
 paper_list
 
